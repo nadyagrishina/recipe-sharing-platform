@@ -79,7 +79,7 @@ const CreateRecipe = () => {
       formData.append("categories", cat);
     });
 
-    fetch("${process.env.REACT_APP_API_URL}/api/recipes", {
+    fetch(`${process.env.REACT_APP_API_URL}/api/recipes`, {
       method: "POST",
       body: formData,
     })

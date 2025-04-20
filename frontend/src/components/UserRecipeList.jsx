@@ -50,7 +50,7 @@ const UserRecipesList = ({ username }) => {
 
   const handleDelete = (id) => {
     if (window.confirm("Opravdu chcete smazat tento recept?")) {
-      fetch(`http://localhost:8080/api/recipes/${id}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`, {
         method: "DELETE",
       })
         .then((res) => {
@@ -94,7 +94,7 @@ const UserRecipesList = ({ username }) => {
           >
             <RecipeItem
               id={recipe.id}
-              imgSrc={`http://localhost:8080${recipe.imagePath}`}
+              imgSrc={`${process.env.REACT_APP_API_URL}${recipe.imagePath}`}
               altText={recipe.name}
               title={recipe.name}
               description={recipe.description}

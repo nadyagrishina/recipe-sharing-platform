@@ -12,7 +12,7 @@ const RecipesList = ({ selectedCategory }) => {
 
   useEffect(() => {
     axios
-      .get("${process.env.REACT_APP_API_URL}/api/recipes")
+      .get(`${process.env.REACT_APP_API_URL}/api/recipes`)
       .then((res) => setRecipes(res.data))
       .catch(() => setError("Nepodařilo se načíst recepty"))
       .finally(() => setLoading(false));
@@ -46,7 +46,7 @@ const RecipesList = ({ selectedCategory }) => {
           >
             <RecipeItem
               id={recipe.id}
-              imgSrc={`http://localhost:8080${recipe.imagePath}`}
+              imgSrc={`${process.env.REACT_APP_API_URL}${recipe.imagePath}`}
               altText={recipe.name}
               title={recipe.name}
               description={recipe.description}

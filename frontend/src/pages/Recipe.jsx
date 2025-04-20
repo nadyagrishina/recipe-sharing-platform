@@ -48,7 +48,7 @@ const RecipePage = () => {
     };
 
     axios
-      .post("${process.env.REACT_APP_API_URL}/api/comments", commentData)
+      .post(`${process.env.REACT_APP_API_URL}/api/comments`, commentData)
       .then((res) => {
         setComments((prev) => [...prev, res.data]);
         setNewComment("");
@@ -74,7 +74,7 @@ const RecipePage = () => {
                 <img
                   src={
                     recipe.imagePath
-                      ? `http://localhost:8080${recipe.imagePath}`
+                      ? `${process.env.REACT_APP_API_URL}${recipe.imagePath}`
                       : DefaultImage
                   }
                   className="card-img-top img-fluid"
