@@ -3,6 +3,7 @@
 /backend/.idea/
 /backend/.DS_Store
 /backend/src/main/resources/application.properties
+/backend/src/main/resources/application-local.properties
 /backend/.env
 
 # Node
