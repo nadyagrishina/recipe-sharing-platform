@@ -12,7 +12,7 @@ const RecipesList = ({ selectedCategory }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/recipes")
+      .get("${process.env.REACT_APP_API_URL}/api/recipes")
       .then((res) => setRecipes(res.data))
       .catch(() => setError("Nepodařilo se načíst recepty"))
       .finally(() => setLoading(false));

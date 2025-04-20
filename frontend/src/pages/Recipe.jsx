@@ -17,7 +17,7 @@ const RecipePage = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const res = await axios.get(`http://localhost:8080/api/recipes/${id}`);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`);
         setRecipe(res.data);
       } catch (err) {
         setError("Chyba při načítání receptu.");
@@ -32,7 +32,7 @@ const RecipePage = () => {
   useEffect(() => {
     if (id) {
       axios
-        .get(`http://localhost:8080/api/comments/${id}`)
+        .get(`${process.env.REACT_APP_API_URL}/api/comments/${id}`)
         .then((res) => setComments(res.data))
         .catch((err) => console.error("Chyba při načítání komentářů:", err));
     }
@@ -48,7 +48,7 @@ const RecipePage = () => {
     };
 
     axios
-      .post("http://localhost:8080/api/comments", commentData)
+      .post("${process.env.REACT_APP_API_URL}/api/comments", commentData)
       .then((res) => {
         setComments((prev) => [...prev, res.data]);
         setNewComment("");

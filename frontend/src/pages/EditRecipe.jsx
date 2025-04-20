@@ -59,7 +59,7 @@ const EditRecipe = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/recipes/${id}`)
+    fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setRecipe({
@@ -102,7 +102,7 @@ const EditRecipe = () => {
       categories: recipe.category,
     };
 
-    fetch(`http://localhost:8080/api/recipes/${id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

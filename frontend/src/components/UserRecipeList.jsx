@@ -13,7 +13,7 @@ const UserRecipesList = ({ username }) => {
   useEffect(() => {
     if (username) {
       axios
-        .get(`http://localhost:8080/api/recipes/user/${username}`)
+        .get(`${process.env.REACT_APP_API_URL}/api/recipes/user/${username}`)
         .then((res) => {
           setRecipes(res.data);
           setDashboard(getDashboardData(res.data));

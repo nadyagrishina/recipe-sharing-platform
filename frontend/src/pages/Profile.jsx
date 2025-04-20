@@ -16,7 +16,7 @@ const Profile = () => {
       const user = JSON.parse(storedUser);
       setUserData(user);
 
-      fetch(`http://localhost:8080/api/recipes/user/${user.username}`)
+      fetch(`${process.env.REACT_APP_API_URL}/api/recipes/user/${user.username}`)
         .then((res) => res.json())
         .catch((err) => console.error("Chyba při načítání receptů:", err));
     } else {
