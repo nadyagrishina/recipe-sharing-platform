@@ -1,7 +1,6 @@
 package com.nadyagrishina.cookbook.service;
 
 import com.nadyagrishina.cookbook.dto.RecipeDTO;
-import com.nadyagrishina.cookbook.model.User;
 
 import java.util.List;
 

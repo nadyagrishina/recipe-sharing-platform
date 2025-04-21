@@ -1,6 +1,9 @@
 package com.nadyagrishina.cookbook.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -12,9 +15,15 @@ public class Comment {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference("user-comments")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "recipe_id", nullable = false)
+    @JsonBackReference("recipe-comments")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Recipe recipe;
 
     private String text;
@@ -65,5 +74,13 @@ public class Comment {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

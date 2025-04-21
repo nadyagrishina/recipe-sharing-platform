@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -40,7 +37,8 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeServiceImpl(RecipeRepository recipeRepository,
                              RecipeMapper recipeMapper,
                              UserService userService,
-                             CategoryRepository categoryRepository, CommentRepository commentRepository) {
+                             CategoryRepository categoryRepository,
+                             CommentRepository commentRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeMapper = recipeMapper;
         this.userService = userService;
@@ -121,10 +119,10 @@ public class RecipeServiceImpl implements RecipeService {
         commentRepository.deleteAll(comments);
 
         if (recipe.getImagePath() != null) {
-            String imagePath = recipe.getImagePath().replace("/api/images/", "");
-            Path path = Paths.get("uploads/images").resolve(imagePath);
+            String imageName = recipe.getImagePath().replace("/api/images/", "");
+            Path imagePath = Paths.get(System.getProperty("user.dir"), "uploads", "images", imageName);
             try {
-                Files.deleteIfExists(path);
+                Files.deleteIfExists(imagePath);
             } catch (IOException e) {
                 System.err.println("Nepodařilo se smazat obrázek: " + e.getMessage());
             }
@@ -132,7 +130,6 @@ public class RecipeServiceImpl implements RecipeService {
 
         recipeRepository.delete(recipe);
     }
-
 
     @Override
     public List<RecipeDTO> getRecipesByCreator(String username) {
@@ -149,10 +146,10 @@ public class RecipeServiceImpl implements RecipeService {
 
         try {
             String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-            Path uploadPath = Paths.get("uploads/images");
-            Files.createDirectories(uploadPath);
+            Path uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "images");
+            Files.createDirectories(uploadDir);
 
-            Path filePath = uploadPath.resolve(fileName);
+            Path filePath = uploadDir.resolve(fileName);
             Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             return "/api/images/" + fileName;

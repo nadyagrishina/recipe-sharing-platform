@@ -1,10 +1,14 @@
 package com.nadyagrishina.cookbook.dto;
 
+import com.nadyagrishina.cookbook.model.User;
+
 public class CommentDTO {
     private Long id;
     private String username;
     private String text;
     private Long recipeId;
+    private User user;
+
 
     public CommentDTO() {
     }

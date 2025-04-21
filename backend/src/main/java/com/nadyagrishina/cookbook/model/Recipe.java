@@ -1,16 +1,15 @@
 package com.nadyagrishina.cookbook.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@ToString
 @NoArgsConstructor
 @Entity
 @Table(name = "recipes")
@@ -41,10 +40,11 @@ public class Recipe {
 
     @ManyToOne
     @JoinColumn(name = "creator")
-    @JsonBackReference
+    @JsonBackReference("user-recipes")
     private User creator;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("recipe-comments")
     private List<Comment> comments = new ArrayList<>();
 
 
@@ -54,6 +54,8 @@ public class Recipe {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
+
+
     private Set<Category> categories = new HashSet<>();
 
 
@@ -120,5 +122,13 @@ public class Recipe {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

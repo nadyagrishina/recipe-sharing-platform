@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserDTO {
@@ -24,16 +23,10 @@ public class UserDTO {
     @NotBlank(message = "Password is required.")
     @Size(min = 6, message = "Password must be at least 6 characters long.")
     private String password;
-
     private String imagePath;
-
     private Role role;
-
     private LocalDateTime registrationDate;
 
-    private List<Recipe> recipeList = new ArrayList<>();
-
-    // Constructors
     public UserDTO() {}
 
     public UserDTO(Long id, String username, String email, String password,
@@ -46,10 +39,8 @@ public class UserDTO {
         this.imagePath = imagePath;
         this.role = role;
         this.registrationDate = registrationDate;
-        this.recipeList = recipeList != null ? recipeList : new ArrayList<>();
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -106,11 +97,4 @@ public class UserDTO {
         this.registrationDate = registrationDate;
     }
 
-    public List<Recipe> getRecipeList() {
-        return recipeList;
-    }
-
-    public void setRecipeList(List<Recipe> recipeList) {
-        this.recipeList = recipeList != null ? recipeList : new ArrayList<>();
-    }
 }

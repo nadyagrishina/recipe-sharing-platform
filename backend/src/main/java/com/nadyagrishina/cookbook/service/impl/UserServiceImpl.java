@@ -5,12 +5,12 @@ import com.nadyagrishina.cookbook.exception.ResourceNotFoundException;
 import com.nadyagrishina.cookbook.mapper.UserMapper;
 import com.nadyagrishina.cookbook.model.Role;
 import com.nadyagrishina.cookbook.model.User;
+import com.nadyagrishina.cookbook.repository.CommentRepository;
 import com.nadyagrishina.cookbook.repository.UserRepository;
 import com.nadyagrishina.cookbook.service.UserService;
-
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,12 +21,15 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final CommentRepository commentRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, CommentRepository commentRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.commentRepository = commentRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -61,23 +64,16 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteUser(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new ResourceNotFoundException("User not found with id: " + id);
-        }
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+        userRepository.delete(user);
     }
+
 
     @Override
     public void registerUser(UserDTO userDTO) {
         User user = buildNewUser(userDTO);
         userRepository.save(user);
-    }
-
-    @Override
-    public Optional<UserDTO> loginUser(String username, String password) {
-        return userRepository.findByUsername(username)
-                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
-                .map(userMapper::toDTO);
     }
 
     @Override
@@ -94,5 +90,11 @@ public class UserServiceImpl implements UserService {
         user.setRole(Role.ROLE_USER);
         user.setRegistrationDate(LocalDateTime.now());
         return user;
+    }
+
+    @Override
+    public Optional<UserDTO> getUserDTOByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(userMapper::toDTO);
     }
 }

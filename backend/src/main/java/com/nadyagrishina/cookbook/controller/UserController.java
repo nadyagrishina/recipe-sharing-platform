@@ -3,6 +3,7 @@ package com.nadyagrishina.cookbook.controller;
 import com.nadyagrishina.cookbook.dto.UserDTO;
 import com.nadyagrishina.cookbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,4 +37,10 @@ public class UserController {
         userService.deleteUser(id);
     }
 
+    @GetMapping("/user/{username}")
+    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
+        return userService.getUserDTOByUsername(username)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

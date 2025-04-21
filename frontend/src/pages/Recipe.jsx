@@ -31,12 +31,21 @@ const RecipePage = () => {
 
   useEffect(() => {
     if (id) {
+      const token = localStorage.getItem("token");
+
       axios
-        .get(`${process.env.REACT_APP_API_URL}/api/comments/${id}`)
-        .then((res) => setComments(res.data))
-        .catch((err) => console.error("Chyba při načítání komentářů:", err));
+          .get(`${process.env.REACT_APP_API_URL}/api/comments/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => setComments(res.data))
+          .catch((err) =>
+              console.error("Chyba při načítání komentářů:", err)
+          );
     }
   }, [id]);
+
 
   const handleAddComment = () => {
     if (!newComment.trim()) return;
@@ -47,9 +56,15 @@ const RecipePage = () => {
       recipeId: Number(id),
     };
 
+    const token = localStorage.getItem("token");
+
     axios
-      .post(`${process.env.REACT_APP_API_URL}/api/comments`, commentData)
-      .then((res) => {
+        .post(`${process.env.REACT_APP_API_URL}/api/comments`, commentData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
         setComments((prev) => [...prev, res.data]);
         setNewComment("");
       })

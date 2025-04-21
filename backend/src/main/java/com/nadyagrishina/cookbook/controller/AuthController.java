@@ -1,39 +1,48 @@
 package com.nadyagrishina.cookbook.controller;
 
+import com.nadyagrishina.cookbook.dto.AuthResponse;
+import com.nadyagrishina.cookbook.dto.LoginRequest;
 import com.nadyagrishina.cookbook.dto.UserDTO;
+import com.nadyagrishina.cookbook.security.JwtUtil;
 import com.nadyagrishina.cookbook.service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin
 public class AuthController {
 
-    UserService userService;
+    private AuthenticationManager authManager;
+    private JwtUtil jwtUtil;
+    private final UserService userService;
 
-    public AuthController(UserService userService) {
+    public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil, UserService userService) {
+        this.authManager = authManager;
+        this.jwtUtil = jwtUtil;
         this.userService = userService;
     }
 
-    @GetMapping("/login")
-    public String getUsers(){
-        return "Getting users";
+    @PostMapping("/login")
+    public AuthResponse login(@RequestBody LoginRequest request) {
+        try {
+            authManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
+            String token = jwtUtil.generateToken(request.getUsername());
+            return new AuthResponse(token);
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Neplatné přihlašovací údaje");
+        }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
         userService.registerUser(userDTO);
-        return ResponseEntity.ok().body(userDTO);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<UserDTO> loginUser(@RequestBody UserDTO userDTO) {
-        Optional<UserDTO> user = userService.loginUser(userDTO.getUsername(), userDTO.getPassword());
-        return user.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+        return ResponseEntity.ok().build();
     }
 
 }

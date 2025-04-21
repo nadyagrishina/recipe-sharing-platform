@@ -17,9 +17,26 @@ const Register = () => {
       await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
         username,
         email,
+        password
+      });
+
+      const loginRes = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+        username,
         password,
       });
-      navigate("/login");
+
+      const token = loginRes.data.token;
+
+      const userRes = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/user/${username}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(userRes.data));
+
+      navigate("/profile");
     } catch (err) {
       if (err.response && err.response.data) {
         setError(err.response.data.message || "Registrace selhala.");

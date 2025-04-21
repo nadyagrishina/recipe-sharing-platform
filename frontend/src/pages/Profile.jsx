@@ -16,9 +16,18 @@ const Profile = () => {
       const user = JSON.parse(storedUser);
       setUserData(user);
 
-      fetch(`${process.env.REACT_APP_API_URL}/api/recipes/user/${user.username}`)
-        .then((res) => res.json())
-        .catch((err) => console.error("Chyba při načítání receptů:", err));
+      const token = localStorage.getItem("token");
+
+      fetch(`${process.env.REACT_APP_API_URL}/api/recipes/user/${user.username}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("Vaše recepty:", data);
+          })
+          .catch((err) => console.error("Chyba při načítání receptů:", err));
     } else {
       navigate("/login");
     }

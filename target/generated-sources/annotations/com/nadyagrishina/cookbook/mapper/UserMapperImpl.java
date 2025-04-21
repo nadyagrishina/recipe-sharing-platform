@@ -1,16 +1,13 @@
 package com.nadyagrishina.cookbook.mapper;
 
 import com.nadyagrishina.cookbook.dto.UserDTO;
-import com.nadyagrishina.cookbook.model.Recipe;
 import com.nadyagrishina.cookbook.model.User;
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-04-21T00:03:35+0200",
+    date = "2025-04-21T12:24:23+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 23.0.2 (Oracle Corporation)"
 )
 @Component
@@ -24,40 +21,32 @@ public class UserMapperImpl implements UserMapper {
 
         UserDTO userDTO = new UserDTO();
 
+        userDTO.setRegistrationDate( user.getRegistrationDate() );
         userDTO.setId( user.getId() );
         userDTO.setUsername( user.getUsername() );
         userDTO.setEmail( user.getEmail() );
         userDTO.setPassword( user.getPassword() );
         userDTO.setImagePath( user.getImagePath() );
         userDTO.setRole( user.getRole() );
-        userDTO.setRegistrationDate( user.getRegistrationDate() );
-        List<Recipe> list = user.getRecipeList();
-        if ( list != null ) {
-            userDTO.setRecipeList( new ArrayList<Recipe>( list ) );
-        }
 
         return userDTO;
     }
 
     @Override
-    public User toEntity(UserDTO userDTO) {
-        if ( userDTO == null ) {
+    public User toEntity(UserDTO dto) {
+        if ( dto == null ) {
             return null;
         }
 
         User user = new User();
 
-        user.setId( userDTO.getId() );
-        user.setUsername( userDTO.getUsername() );
-        user.setEmail( userDTO.getEmail() );
-        user.setPassword( userDTO.getPassword() );
-        user.setRole( userDTO.getRole() );
-        user.setImagePath( userDTO.getImagePath() );
-        user.setRegistrationDate( userDTO.getRegistrationDate() );
-        List<Recipe> list = userDTO.getRecipeList();
-        if ( list != null ) {
-            user.setRecipeList( new ArrayList<Recipe>( list ) );
-        }
+        user.setRegistrationDate( dto.getRegistrationDate() );
+        user.setId( dto.getId() );
+        user.setUsername( dto.getUsername() );
+        user.setEmail( dto.getEmail() );
+        user.setPassword( dto.getPassword() );
+        user.setRole( dto.getRole() );
+        user.setImagePath( dto.getImagePath() );
 
         return user;
     }

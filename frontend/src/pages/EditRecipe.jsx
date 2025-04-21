@@ -102,14 +102,18 @@ const EditRecipe = () => {
       categories: recipe.category,
     };
 
+    const token = localStorage.getItem("token");
+
     fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(updatedData),
     })
-      .then((res) => {
+
+        .then((res) => {
         if (!res.ok) throw new Error("Chyba při aktualizaci receptu.");
         return res.json();
       })

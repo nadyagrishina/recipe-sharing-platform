@@ -15,17 +15,28 @@ const Login = () => {
     try {
       const response = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/auth/login`,
-        {
-          username,
-          password,
-        }
+          { username, password }
       );
 
-      if (response.status === 200 && response.data) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+      if (response.status === 200 && response.data.token) {
+        const token = response.data.token;
+
+        const userResponse = await axios.get(
+            `${process.env.REACT_APP_API_URL}/api/users/user/${username}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+        );
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(userResponse.data));
+
         navigate("/profile");
       }
     } catch (err) {
+      console.error(err);
       setError("Neplatné přihlašovací údaje.");
     }
   };

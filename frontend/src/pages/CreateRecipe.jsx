@@ -79,13 +79,18 @@ const CreateRecipe = () => {
       formData.append("categories", cat);
     });
 
+    const token = localStorage.getItem("token");
+
     fetch(`${process.env.REACT_APP_API_URL}/api/recipes`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: formData,
     })
-      .then((res) => (res.ok ? res.json() : Promise.reject()))
-      .then(() => navigate("/profile"))
-      .catch(() => alert("Chyba při odesílání."));
+        .then((res) => (res.ok ? res.json() : Promise.reject()))
+        .then(() => navigate("/profile"))
+        .catch(() => alert("Chyba při odesílání."));
   };
 
   return (

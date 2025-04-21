@@ -12,19 +12,25 @@ const UserRecipesList = ({ username }) => {
 
   useEffect(() => {
     if (username) {
+      const token = localStorage.getItem("token");
       axios
-        .get(`${process.env.REACT_APP_API_URL}/api/recipes/user/${username}`)
-        .then((res) => {
-          setRecipes(res.data);
-          setDashboard(getDashboardData(res.data));
-          setLoading(false);
-        })
-        .catch(() => {
-          setError("Nepodařilo se načíst recepty");
-          setLoading(false);
-        });
+          .get(`${process.env.REACT_APP_API_URL}/api/recipes/user/${username}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            setRecipes(res.data);
+            setDashboard(getDashboardData(res.data));
+            setLoading(false);
+          })
+          .catch(() => {
+            setError("Nepodařilo se načíst recepty");
+            setLoading(false);
+          });
     }
   }, [username]);
+
 
   const getDashboardData = (recipes) => {
     const total = recipes.length;
@@ -48,24 +54,29 @@ const UserRecipesList = ({ username }) => {
     return { total, topCategories, recent };
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm("Opravdu chcete smazat tento recept?")) {
-      fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`, {
-        method: "DELETE",
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error();
-          const updated = recipes.filter((r) => r.id !== id);
-          setRecipes(updated);
-          setDashboard(getDashboardData(updated));
-        })
-        .catch(() => {
-          alert("Chyba při mazání.");
-        });
-    }
-  };
+    const handleDelete = (id) => {
+        if (window.confirm("Opravdu chcete smazat tento recept?")) {
+            const token = localStorage.getItem("token");
+            fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then((res) => {
+                    if (!res.ok) throw new Error();
+                    const updated = recipes.filter((r) => r.id !== id);
+                    setRecipes(updated);
+                    setDashboard(getDashboardData(updated));
+                })
+                .catch(() => {
+                    alert("Chyba při mazání.");
+                });
+        }
+    };
 
-  if (loading) return <p>Načítání receptů...</p>;
+
+    if (loading) return <p>Načítání receptů...</p>;
   if (error) return <p>{error}</p>;
   if (recipes.length === 0) return <p>Uživatel zatím nemá žádné recepty.</p>;
 
