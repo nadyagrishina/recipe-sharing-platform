@@ -128,6 +128,7 @@ const CreateRecipe = () => {
               className="form-control"
               name="ingredients"
               value={recipe.ingredients}
+              placeholder="Např.: mouka, vejce, cukr, mléko"
               onChange={handleChange}
               required
             />
@@ -139,6 +140,7 @@ const CreateRecipe = () => {
               className="form-control"
               name="instructions"
               value={recipe.instructions}
+              placeholder="Např.: Smíchejte suché ingredience. Přidejte vejce a mléko. Pečte 30 minut."
               onChange={handleChange}
               required
             />

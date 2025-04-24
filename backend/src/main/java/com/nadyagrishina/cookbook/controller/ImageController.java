@@ -9,21 +9,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/images")
 public class ImageController {
 
     @GetMapping("/{imageName}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) throws MalformedURLException {
-        File file = new File(System.getProperty("user.dir") + "/uploads/images/" + imageName);
+        File file = new File("uploads/images/" + imageName).getAbsoluteFile();
 
         if (!file.exists()) {
             return ResponseEntity.notFound().build();
-        }
 
+        }
         Path path = file.toPath();
         Resource resource = new UrlResource(path.toUri());
 

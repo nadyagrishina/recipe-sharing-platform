@@ -51,7 +51,7 @@ const RecipesCategories = ({ selectedCategory, setSelectedCategory }) => {
           key={i}
           className={`btn btn-sm ${
             selectedCategory === category
-              ? "btn-primary"
+              ? "btn-primary btn-category-success"
               : "btn-outline-secondary"
           }`}
           onClick={() => setSelectedCategory(category)}

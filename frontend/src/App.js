@@ -1,3 +1,4 @@
+import "./api/axiosConfig";
 import AppRoutes from "./routes/AppRoutes";
 import Footer from "./components/Footer";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";

@@ -278,6 +278,13 @@ html, body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.card-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  height: 40px;
+  overflow: scroll;
+}
+
 .recipes .card-body, .card-body {
   background-color: #fff ;
   padding: 20px ;
@@ -535,7 +542,6 @@ input {
   margin-bottom: 10px;
 }
 
-
 .btn-category{
   background-color: none; 
   color: var(--font-color);
@@ -547,7 +553,7 @@ input {
 }
 
 .btn-category-success{
-  background-color: var(--accent-color); 
+  background-color: var(--accent-color) !important;
   color: white !important;
   border-color: var(--accent-color);
 }

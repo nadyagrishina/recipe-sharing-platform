@@ -30,6 +30,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/recipes/**").permitAll()
                         .requestMatchers("/api/images/**").permitAll()
                         .requestMatchers("/api/comments/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(eh -> eh
                         .authenticationEntryPoint((request, response, authException) ->
