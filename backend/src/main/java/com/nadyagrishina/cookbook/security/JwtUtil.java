@@ -12,7 +12,6 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = System.getenv("JWT_SECRET");
     private static final long EXPIRATION_TIME = 86400000;
 
     private final Key key;
