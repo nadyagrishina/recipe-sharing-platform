@@ -120,13 +120,20 @@ public class RecipeServiceImpl implements RecipeService {
 
         if (recipe.getImagePath() != null) {
             String imageName = recipe.getImagePath().replace("/api/images/", "");
-            Path imagePath = Paths.get(System.getProperty("user.dir"), "uploads", "images", imageName);
+
+            Path imagePath = Paths.get(System.getProperty("user.dir"))
+                    .getParent()
+                    .resolve("uploads")
+                    .resolve("images")
+                    .resolve(imageName);
+
             try {
                 Files.deleteIfExists(imagePath);
             } catch (IOException e) {
                 System.err.println("Nepodařilo se smazat obrázek: " + e.getMessage());
             }
         }
+
 
         recipeRepository.delete(recipe);
     }
@@ -146,7 +153,13 @@ public class RecipeServiceImpl implements RecipeService {
 
         try {
             String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-            Path uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "images");
+
+            // Save to cookbook/uploads/images even if backend is the current dir
+            Path uploadDir = Paths.get(System.getProperty("user.dir"))
+                    .getParent()
+                    .resolve("uploads")
+                    .resolve("images");
+
             Files.createDirectories(uploadDir);
 
             Path filePath = uploadDir.resolve(fileName);
