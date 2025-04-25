@@ -62,5 +62,5 @@ Frontend will be available at: `http://localhost:3000`
 
 ## 📸 Preview
 
-![Live Preview](screenshots/preview.png)
+![Live Preview](screenshots/preview.jpg)
 
