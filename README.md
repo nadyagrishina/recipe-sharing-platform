@@ -56,7 +56,8 @@ Frontend will be available at: `http://localhost:3000`
 
 - `backend/` – Spring Boot backend application (API + DB)
 - `frontend/` – React frontend (UI)
-- `uploads/` – folder for uploaded recipe images
+- `README.md` – this file
+- `screenshots/` – files for Live Preview in README.md
 
 ---
 
