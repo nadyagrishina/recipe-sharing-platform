@@ -121,10 +121,7 @@ public class RecipeServiceImpl implements RecipeService {
         if (recipe.getImagePath() != null) {
             String imageName = recipe.getImagePath().replace("/api/images/", "");
 
-            Path imagePath = Paths.get(System.getProperty("user.dir"))
-                    .getParent()
-                    .resolve("uploads")
-                    .resolve("images")
+            Path imagePath = Paths.get("uploads").resolve("images")
                     .resolve(imageName);
 
             try {
@@ -155,10 +152,8 @@ public class RecipeServiceImpl implements RecipeService {
             String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
 
             // Save to cookbook/uploads/images even if backend is the current dir
-            Path uploadDir = Paths.get(System.getProperty("user.dir"))
-                    .getParent()
-                    .resolve("uploads")
-                    .resolve("images");
+            Path uploadDir = Paths.get("uploads").resolve("images");
+
 
             Files.createDirectories(uploadDir);
 

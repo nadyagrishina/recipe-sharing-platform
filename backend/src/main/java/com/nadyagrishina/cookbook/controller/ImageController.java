@@ -1,5 +1,6 @@
 package com.nadyagrishina.cookbook.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
@@ -19,9 +20,15 @@ import java.util.List;
 @RequestMapping("/api/images")
 public class ImageController {
 
+    @Value("${app.upload.path}")
+    private String uploadPath;
+
     @GetMapping("/{imageName}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) throws MalformedURLException {
-        File file = new File("../uploads/images/" + imageName).getAbsoluteFile();
+        System.out.println("File exists: " + uploadPath + "/" + imageName);
+        File file = new File(uploadPath + "/" + imageName).getAbsoluteFile();
+
+
 
         if (!file.exists()) {
             return ResponseEntity.notFound().build();
