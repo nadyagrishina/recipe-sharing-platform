@@ -1,4 +1,4 @@
-# CookBook
+# 🥙 CookBook
 
 **Author**: Nadezhda Grishina  
 **Course**: TNPW2  
@@ -7,7 +7,7 @@
 
 ---
 
-## About the Project
+## 💻 About the Project
 
 **CookBook** is a web application for sharing recipes, created as a semester project for the course TNPW2 at the University of Hradec Králové. Users can register, log in, add their own recipes with images, comment on others' recipes, and browse content by categories.
 
@@ -35,20 +35,16 @@ Make sure you have a running MySQL database. You can configure your connection i
     spring.datasource.username=root
     spring.datasource.password=yourpassword
 
+Create JWT Secret key. Use `openssl rand -base64 32` command for example. Put it in backend/src/main/resources/application.properties as well. Example:
+
+    jwt.secret=U3Ca9flGmegXffooLUrLQ7cozn44nsavb0SXxLnbLM8=
+
 Then run:
 
     cd backend
     ./mvnw spring-boot:run
 
-Backend will be available at: `http://localhost:8080`
-
-### Frontend
-
-    cd frontend
-    npm install
-    npm start
-
-Frontend will be available at: `http://localhost:3000`
+App will be available at: `http://localhost:8080`
 
 ---
 
@@ -64,4 +60,9 @@ Frontend will be available at: `http://localhost:3000`
 ## 📸 Preview
 
 ![Live Preview](screenshots/preview.jpg)
+
+## 📄 License
+
+This project was created as part of a university course and is for educational use only.
+
 
