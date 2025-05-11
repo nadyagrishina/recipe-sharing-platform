@@ -38,7 +38,6 @@ public class RecipeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RecipeDTO addRecipe(@ModelAttribute RecipeDTO recipe) {
-
         return recipeService.createRecipe(recipe);
     }
 
