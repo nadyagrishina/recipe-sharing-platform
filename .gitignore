@@ -14,6 +14,6 @@
 .DS_Store
 /backend/src/main/resources/application-local.properties
 
-/uploads/images/
+/uploads/
 
 .idea
